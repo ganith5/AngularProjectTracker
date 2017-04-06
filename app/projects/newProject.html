@@ -1,0 +1,42 @@
+<div>
+
+    <h1>New Project </h1>
+
+
+    <div class="alert alert-success" role="alert" ng-if="statusMessage">{{statusMessage}}</div>
+
+
+
+    <form novalidate class="simple-form">
+
+        <div class="form-group">
+            <label for="pName">Project Name:</label>
+            <input type="text" class="form-control" id="pName" required="required" ng-model="project.name">
+        </div>
+
+        <div class="form-group">
+            <label for="subPName">Subproject Of:</label>
+            <input type="text" class="form-control" id="subPName" ng-model="project.subprojectName">
+        </div>
+
+
+        <div class="form-group">
+            <label for="pDesc">Description:</label>
+            <input type="textarea" class="form-control" id="pDesc" ng-model="project.description">
+        </div>
+
+        <div class="form-group">
+            <label for="pType">Project Type:</label>
+            <select class="form-control" id="pType" ng-model="project.projectType">
+                <option></option>
+                <option>Scrum team</option>
+                <option>Standard Project</option>
+
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-default" ng-click="addProject(project)">Create</button>
+    </form>
+
+
+</div>

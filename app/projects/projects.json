@@ -1,0 +1,41 @@
+[
+  {
+    "id": 1,
+    "name": "Project1",
+    "description": "This is the project description for P1  ",
+    "members": [
+      {"id": 1, "name": "User1"}, {"id": 2, "name": "User2"}, {"id": 3, "name": "User3"}
+    ],
+    "workpackage": [
+      {"id": 1, "name": "WP1", "description": "WP1 description", "type": "Task"},
+      {"id": 2, "name": "WP2", "description": "WP2 description", "type": "Bug"},
+      {"id": 3, "name": "WP3", "description": "WP3 description", "type": "Epic"}
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Project2",
+    "description": "This is the project description for P2  ",
+    "members": [
+      {"id": 1, "name": "User1"}, {"id": 2, "name": "User2"}, {"id": 3, "name": "User3"}
+    ],
+    "workpackage": [
+      {"id": 1, "name": "WP1", "description": "WP1 description", "type": "Task"},
+      {"id": 2, "name": "WP2", "description": "WP2 description", "type": "Bug"},
+      {"id": 3, "name": "WP3", "description": "WP3 description", "type": "Epic"}
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Project3",
+    "description": "This is the project description for P3  ",
+    "members": [
+      {"id": 1, "name": "User1"}, {"id": 2, "name": "User2"}, {"id": 3, "name": "User3"}
+    ],
+    "workpackage": [
+      {"id": 1, "name": "WP1", "description": "WP1 description", "type": "Task"},
+      {"id": 2, "name": "WP2", "description": "WP2 description", "type": "Bug"},
+      {"id": 3, "name": "WP3", "description": "WP3 description", "type": "Epic"}
+    ]
+  }
+]

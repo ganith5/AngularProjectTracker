@@ -1,0 +1,60 @@
+/* app css stylesheet */
+
+.menu {
+  list-style: none;
+  border-bottom: 0.1em solid black;
+  margin-bottom: 2em;
+  padding: 0 0 0.5em;
+}
+
+.menu:before {
+  content: "[";
+}
+
+.menu:after {
+  content: "]";
+}
+
+.menu > li {
+  display: inline;
+}
+
+.menu > li + li:before {
+  content: "|";
+  padding-right: 0.3em;
+}
+
+.navbar-custom {
+    color: #2e6da4;
+    background-color: #2e6da4;
+}
+
+#main-content .col-lg-2, #main-content .col-lg-10 {
+  height: 100vh;
+}
+
+#sidebar-menu, #breadcrumb-content {
+    background-color: lightgrey;
+    color: black;
+}
+
+.nav-item {
+    border: 2px black;
+}
+
+.left {
+    float: left;
+}
+
+#workPackageTable {
+    /*background-color: red;*/
+}
+
+.table td {
+    text-align: center;
+}
+
+.div-stack {
+    float: left;
+    clear: both;
+}

@@ -1,0 +1,148 @@
+<!DOCTYPE html ng-app="openProjectApp">
+<!--[if lt IE 7]>      <html lang="en" ng-app="openProjectApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="openProjectApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="openProjectApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="openProjectApp" class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>My AngularJS App</title>
+    <base href="/">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
+  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
+
+    <link rel="stylesheet" href="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.css">
+
+  <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+   <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-smart-table/dist/smart-table.min.js"></script>
+
+    <script src="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.js"></script>
+
+    <script src="projects/projects.module.js"></script>
+    <script src="projects/projects.service.js"></script>
+   <script src="app.js"></script>
+
+
+
+    <link rel="stylesheet" href="app.css">
+
+</head>
+<body>
+
+<div class="container-fluid">
+<nav class="navbar navbar-inverse" role="navigation" ng-controller="NavigationController">
+    <div class="container-fluid">
+        <div class="row">
+        <div class="col-lg-2 navbar-header">
+            <a class="navbar-brand" href="#">Open Project</a>
+        </div>
+            <div class="col-lg-10">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">My Page</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Projects <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="projects"><span class="glyphicon glyphicon-menu-hamburger"> View All Projects</span></a></li>
+                            <li><a href="projects/new"><span class="glyphicon glyphicon-plus"> Project</span></a></li>
+                            <li><input type="text" class="form-control" placeholder="Search"></li>
+                            <li ng-repeat="project in allProjects">
+                                <a ng-href="projects/{{project.name}}" ng-click="loadProject(project)">{{project.name}}</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Modules <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Work Packages</a></li>
+                            <li><a href="#">News</a></li>
+                            <li><a href="#">Cost Reports</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                </ul>
+                </div>
+        </div>
+    </div>
+</nav>
+
+    <div class="row">
+        <div class="row" ng-controller="SidebarController" id="breadcrumb-content">
+            <div class="col-lg-2">
+                <a href="#" ng-click="toggleSideBar();"><span class="glyphicon glyphicon-backward"></span></a>
+            </div>
+            <div class="col-lg-10">
+                <ol class="breadcrumb">
+                    <li><a href="#"><span class="glyphicon glyphicon-home"></span></a></li>
+                    <li ngIf="{{currentProject}}"><a href="{{currentProject.id}}">{{currentProject.name}}</a></li>
+                    <li ngIf="{{currentProject}}"><a href="#">{{sideMenuName}}</a></li>
+
+                    <!--TODO this has to be dynamic-->
+                </ol>
+            </div>
+        </div>
+
+
+<div class="row" id="main-content">
+    <div class="col-lg-2" id="sidebar-menu" ng-controller="SidebarController">
+        <ul class="nav navbar-stacked" >
+            <li class="nav-item">
+                <a class="nav-link active" href="/projects/{{currentProject.name}}" ng-click="setSideMenuName('Overview');"><span class="glyphicon glyphicon-menu-hamburger"> Overview</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/projects/{{currentProject.name}}/workpackage" ng-click="setSideMenuName('Work Packages');"><span class="glyphicon glyphicon-plane"> Work Packages</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#"><span class="glyphicon glyphicon-tasks"> Timelines</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#"><span class="glyphicon glyphicon-tasks"> Backlogs</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#"><span class="glyphicon glyphicon-calendar"> Calendar</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#"><span class="glyphicon glyphicon-bullhorn"> News</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#"><span class="glyphicon glyphicon-tasks"> Wiki</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#"><span class="glyphicon glyphicon-tasks"> Cost Reports</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#"><span class="glyphicon glyphicon-tasks"> Members</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#"><span class="glyphicon glyphicon-tasks"> Meetings</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#"><span class="glyphicon glyphicon-tasks"> Budget</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#"><span class="glyphicon glyphicon-tasks"> Project Settings</span></a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-lg-10" style="background-color: lightblue">
+        <!-- /btn-group -->
+        <div ng-view></div>
+    </div>
+</div>
+</div>
+<div class="row" style="background-color: yellowgreen;height: 100px">
+    <div class="col-lg-12">
+    Some footer
+    </div>
+</div>
+</div>
+</body>
+</html>
