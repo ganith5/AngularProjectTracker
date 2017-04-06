@@ -27,7 +27,7 @@ app.config(function($routeProvider, $locationProvider) {
 });
 
 
-
+//Method to call SideBar actions
 app.controller('SidebarController', function($scope, $rootScope){
 
     $scope.toggleSideBar = function () {
