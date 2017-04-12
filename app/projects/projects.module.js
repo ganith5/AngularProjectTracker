@@ -5,7 +5,7 @@ var projectsModule = angular.module('projects',['ngResource']);
 //TODO: is this the best way to store project data
 projectsModule.controller('ProjectController', function($scope, $http, $rootScope, Project){
 
-    //console.log("Loading the task application..");
+    console.log("Loading ProjectController ---");
 
     // $scope.addTask = function() {
     //     console.log("Adding a new task");
@@ -18,9 +18,9 @@ projectsModule.controller('ProjectController', function($scope, $http, $rootScop
         return $rootScope.currentProject.members;
     }
 
-    $scope.allProjects = [];
+    //$scope.allProjects = [];
 
-    Project.query(function (projectList) {
+   /* Project.query(function (projectList) {
         console.log("All projects with factory  = " + projectList);
 
         angular.forEach(projectList, function(project) {
@@ -29,13 +29,16 @@ projectsModule.controller('ProjectController', function($scope, $http, $rootScop
 
 
         })
-    });
+    }); */
 
-
+//Methods in the controller are executed only when called.
     $scope.addProject = function(projectInput) {
 
-        //console.log("Creating a project" + projectInput);
-        projectInput.id = Math.random().toString(16).slice(2);
+
+        projectInput.pid = Math.floor((Math.random() * 1000) + 1);
+
+        console.log("Project to be added : " + JSON.stringify(projectInput));
+
         Project.save(projectInput, function (retProject) {
            // console.log("Succeess!!" + retProject.id);
             $scope.statusMessage = "Project successfully saved!";
@@ -47,19 +50,40 @@ projectsModule.controller('ProjectController', function($scope, $http, $rootScop
 });
 
 projectsModule.controller('WorkPackageController',
-    function WorkPackageController($scope, $rootScope, NgTableParams, Project){
+    function WorkPackageController($scope, $rootScope, NgTableParams,
+                                   Project, WorkPackage, Users){
 
-    console.log("Instantiating WorkPackageController,....");
+    console.log("Instantiating WorkPackageController,{currProject} = "+ JSON.stringify($rootScope.currentProject));
     var wpc = this;
-    var originalData = $rootScope.currentProject.workpackage;
-    wpc.tableParams = new NgTableParams({}, {
-        dataset: angular.copy(originalData)
-    });
 
-    // wpc.getWorkPackages = function() {
-    //     console.log("--- GetWorkPackage--- ");
-    //     return $rootScope.currentProject.workpackage;
-    // }
+    var workPackagesIds = $rootScope.currentProject.workPackages;
+    console.log("workPackagesIds : " + workPackagesIds);
+
+    $scope.allProjectAssignees = [];
+
+    WorkPackage.query({wid: workPackagesIds}, function(originalData){
+
+        console.log("Returned data = " + originalData)
+        console.log("JSON original data = " + JSON.stringify(originalData));
+        wpc.tableParams = new NgTableParams({}, {
+            dataset: angular.copy(originalData)
+        });
+
+        var projectId = $rootScope.currentProject.pid;
+        console.log("Current project id = " + projectId);
+        Users.query({projectId: projectId}, function(projectAssignees){
+            console.log("Project assignees = " + projectAssignees);
+
+            angular.forEach(projectAssignees, function(pAssignee) {
+
+                console.log("Assignee = " + JSON.stringify(pAssignee));
+                $scope.allProjectAssignees.push(pAssignee);
+
+
+            });
+        });
+
+    });
 
     wpc.addRow = function() {
         console.log("Adding a row to the workPackage table");
@@ -67,7 +91,7 @@ projectsModule.controller('WorkPackageController',
         this.isAdding = true;
 
         wpc.tableParams.settings().dataset.unshift({
-             id: Math.random().toString(16).slice(2),
+             wid: Math.floor((Math.random() * 1000) + 1),
              subject: "",
              type: "",
              status: "",
@@ -79,6 +103,7 @@ projectsModule.controller('WorkPackageController',
         wpc.tableParams.reload();
     }
 
+    //TODO: this is not working
     wpc.saveRow = function() {
         console.log("Saving data of workPackage table");
         var tableDataArr = [];

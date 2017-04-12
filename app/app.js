@@ -64,8 +64,8 @@ app.controller('NavigationController', function (Project, $scope, $rootScope) {
 
     //Load project by id
     $scope.loadProject = function(project) {
-        //console.log("project id to be loaded = " + project.id);
-        $rootScope.currentProject = Project.get({id: project.id});
+        console.log("project id to be loaded = " + project.pid);
+        $rootScope.currentProject = Project.get({id: project.pid});
         $rootScope.sideMenuName = "Overview";
     }
 

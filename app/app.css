@@ -1,5 +1,20 @@
 /* app css stylesheet */
 
+.navbar-inverse {
+    background-color: #002a51;
+    border: 0;
+    box-shadow: none;
+
+}
+
+#title-bar {
+    background-color: #002a51;
+}
+
+.breadcrumb {
+    background-color: darkgray;
+}
+
 .menu {
   list-style: none;
   border-bottom: 0.1em solid black;
@@ -34,13 +49,21 @@
 }
 
 #sidebar-menu, #breadcrumb-content {
-    background-color: lightgrey;
-    color: black;
+    background-color: darkgray;
+    border: 1px solid white;
 }
 
 .nav-item {
     border: 2px black;
+    background-color: darkgray;
 }
+
+/*Side bar and navigation bar*/
+a span {
+    color: black;
+    text-align: right;
+}
+
 
 .left {
     float: left;

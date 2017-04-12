@@ -37,7 +37,7 @@
 </head>
 <body>
 
-<div class="container-fluid">
+<div class="row" id="title-bar">
 <nav class="navbar navbar-inverse" role="navigation" ng-controller="NavigationController">
     <div class="container-fluid">
         <div class="row">
@@ -73,8 +73,9 @@
         </div>
     </div>
 </nav>
+</div>
+<div class="row" id="bcplusmc">
 
-    <div class="row">
         <div class="row" ng-controller="SidebarController" id="breadcrumb-content">
             <div class="col-lg-2">
                 <a href="#" ng-click="toggleSideBar();"><span class="glyphicon glyphicon-backward"></span></a>
@@ -91,58 +92,58 @@
         </div>
 
 
-<div class="row" id="main-content">
-    <div class="col-lg-2" id="sidebar-menu" ng-controller="SidebarController">
-        <ul class="nav navbar-stacked" >
-            <li class="nav-item">
-                <a class="nav-link active" href="/projects/{{currentProject.name}}" ng-click="setSideMenuName('Overview');"><span class="glyphicon glyphicon-menu-hamburger"> Overview</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/projects/{{currentProject.name}}/workpackage" ng-click="setSideMenuName('Work Packages');"><span class="glyphicon glyphicon-plane"> Work Packages</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"><span class="glyphicon glyphicon-tasks"> Timelines</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"><span class="glyphicon glyphicon-tasks"> Backlogs</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#"><span class="glyphicon glyphicon-calendar"> Calendar</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#"><span class="glyphicon glyphicon-bullhorn"> News</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#"><span class="glyphicon glyphicon-tasks"> Wiki</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#"><span class="glyphicon glyphicon-tasks"> Cost Reports</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#"><span class="glyphicon glyphicon-tasks"> Members</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#"><span class="glyphicon glyphicon-tasks"> Meetings</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#"><span class="glyphicon glyphicon-tasks"> Budget</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#"><span class="glyphicon glyphicon-tasks"> Project Settings</span></a>
-            </li>
-        </ul>
-    </div>
-    <div class="col-lg-10" style="background-color: lightblue">
+        <div class="row" id="main-content">
+            <div class="col-lg-2" id="sidebar-menu" ng-controller="SidebarController">
+                <ul class="nav navbar-stacked" >
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/projects/{{currentProject.name}}" ng-click="setSideMenuName('Overview');"><span class="glyphicon glyphicon-menu-hamburger"> Overview</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/projects/{{currentProject.name}}/workpackage" ng-click="setSideMenuName('Work Packages');"><span class="glyphicon glyphicon-plane"> Work Packages</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><span class="glyphicon glyphicon-tasks"> Timelines</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><span class="glyphicon glyphicon-tasks"> Backlogs</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#"><span class="glyphicon glyphicon-calendar"> Calendar</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#"><span class="glyphicon glyphicon-bullhorn"> News</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#"><span class="glyphicon glyphicon-tasks"> Wiki</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#"><span class="glyphicon glyphicon-tasks"> Cost Reports</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#"><span class="glyphicon glyphicon-tasks"> Members</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#"><span class="glyphicon glyphicon-tasks"> Meetings</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#"><span class="glyphicon glyphicon-tasks"> Budget</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#"><span class="glyphicon glyphicon-tasks"> Project Settings</span></a>
+                    </li>
+                </ul>
+            </div>
+    <div class="col-lg-10">
         <!-- /btn-group -->
         <div ng-view></div>
     </div>
 </div>
 </div>
-<div class="row" style="background-color: yellowgreen;height: 100px">
+<div class="row" style="background-color: white;height: 100px">
     <div class="col-lg-12">
     Some footer
     </div>
 </div>
-</div>
+
 </body>
 </html>

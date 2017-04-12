@@ -19,9 +19,9 @@
         <tr ng-repeat="wPackage in $data">
             <td><input type="checkbox"/></td>
             <td title="'ID'" filter="{ id: 'number'}" sortable="'id'" ng-switch="wpc.isEditing">
-                <span ng-switch-default>{{wPackage.id}}</span>
+                <span ng-switch-default>{{wPackage.wid}}</span>
                 <div ng-switch-when="true">
-                    <input type="text" name="id" ng-model="wPackage.id" class="form-control" required />
+                    <input type="text" name="id" ng-model="wPackage.wid" class="form-control" required />
                 </div>
             </td>
             <td title="'Subject'" filter="{ subject: 'text'}" sortable="'subject'" ng-switch="wpc.isEditing">
@@ -56,10 +56,18 @@
                     </select>
                 </div>
             </td>
+
+
             <td title="'Assignee'" filter="{ assignee: 'text'}" sortable="'assignee'" ng-switch="wpc.isEditing">
-                <span ng-switch-default>{{wPackage.assignee}}</span>
+                <span ng-switch-default>{{wPackage.assignee.fname}}</span>
+
                 <div ng-switch-when="true">
-                    <input type="text" name="assignee" ng-model="wPackage.assignee" class="form-control" required />
+                    <!--<input type="text" name="assignee" ng-model="wPackage.assignee" class="form-control" required />-->
+                    <select class="form-control" name="assignee" ng-model="wPackage.assignee" required>
+                        <option ng-repeat="assignee in allProjectAssignees" value="assignee.userId"
+                                ng-selected="wPackage.assignee.userId == assignee.userId">{{assignee.fname}}</option>
+
+                    </select>
                 </div>
             </td>
 
