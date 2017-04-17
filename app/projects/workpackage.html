@@ -12,16 +12,16 @@
 
     <div class="pull-right div-stack">
         <button type="button" ng-click="wpc.addRow()"><span class="glyphicon glyphicon-plus"></span></button>
-        <button type="button" ng-click="wpc.saveRow()"><span class="glyphicon glyphicon-pencil"></span></button>
+        <!--<button type="button" ng-click="wpc.saveAll()"><span class="glyphicon glyphicon-pencil">Save All</span></button>-->
     </div>
     <div>
     <table ng-table="wpc.tableParams" class="table table-striped table-bordered" show-filter="false">
-        <tr ng-repeat="wPackage in $data">
+        <tr ng-repeat="wPackage in $data" ng-Form="rowForm">
             <td><input type="checkbox"/></td>
             <td title="'ID'" filter="{ id: 'number'}" sortable="'id'" ng-switch="wpc.isEditing">
                 <span ng-switch-default>{{wPackage.wid}}</span>
                 <div ng-switch-when="true">
-                    <input type="text" name="id" ng-model="wPackage.wid" class="form-control" required />
+                    <input type="text" name="id" ng-model="wPackage.wid" class="form-control" required/>
                 </div>
             </td>
             <td title="'Subject'" filter="{ subject: 'text'}" sortable="'subject'" ng-switch="wpc.isEditing">
@@ -61,18 +61,32 @@
             <td title="'Assignee'" filter="{ assignee: 'text'}" sortable="'assignee'" ng-switch="wpc.isEditing">
                 <span ng-switch-default>{{wPackage.assignee.fname}}</span>
 
+                <!--TODO how to use ng-options-->
                 <div ng-switch-when="true">
-                    <!--<input type="text" name="assignee" ng-model="wPackage.assignee" class="form-control" required />-->
-                    <select class="form-control" name="assignee" ng-model="wPackage.assignee" required>
-                        <option ng-repeat="assignee in allProjectAssignees" value="assignee.userId"
-                                ng-selected="wPackage.assignee.userId == assignee.userId">{{assignee.fname}}</option>
+
+
+                    <select class="form-control" name="assignee" ng-model="wPackage.assignee"
+                            ng-options="assignee.fname for assignee in allProjectAssignees track by assignee.userId" required>
 
                     </select>
                 </div>
             </td>
 
             <td>
-                <button class="btn btn-danger" ng-click="wpc.deleteRow(wPackage)"><span class="glyphicon glyphicon-trash"></span></button>
+
+                <button class="btn btn-primary btn-sm" ng-click="wpc.saveRow(wPackage)" ng-if="wpc.isEditing"
+                        ng-disabled="rowForm.$pristine || rowForm.$invalid">
+                    <span class="glyphicon glyphicon-ok"></span>
+                </button>
+                <button class="btn btn-default btn-sm" ng-click="wpc.cancel(row, rowForm)" ng-if="wpc.isEditing">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </button>
+                <button class="btn btn-default btn-sm" ng-click="wpc.isEditing = true" ng-if="!wpc.isEditing">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </button>
+                <button class="btn btn-danger" ng-click="wpc.deleteRow(wPackage)" ng-if="!wpc.isEditing">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </button>
 
             </td>
         </tr>

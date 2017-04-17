@@ -7,29 +7,11 @@ projectsModule.controller('ProjectController', function($scope, $http, $rootScop
 
     console.log("Loading ProjectController ---");
 
-    // $scope.addTask = function() {
-    //     console.log("Adding a new task");
-    //     $scope.message = "Added a task " + $scope.taskName;
-    // }
-
-    
     //TODO: Check if there is a better way!!
     $scope.getProjectMembers = function() {
         return $rootScope.currentProject.members;
     }
 
-    //$scope.allProjects = [];
-
-   /* Project.query(function (projectList) {
-        console.log("All projects with factory  = " + projectList);
-
-        angular.forEach(projectList, function(project) {
-
-            $scope.allProjects.push(project);
-
-
-        })
-    }); */
 
 //Methods in the controller are executed only when called.
     $scope.addProject = function(projectInput) {
@@ -42,6 +24,12 @@ projectsModule.controller('ProjectController', function($scope, $http, $rootScop
         Project.save(projectInput, function (retProject) {
            // console.log("Succeess!!" + retProject.id);
             $scope.statusMessage = "Project successfully saved!";
+            // Project.query(function (projectList) {
+            //     angular.forEach(projectList, function(project) {
+            //         $scope.allProjects.push(project);
+            //
+            //     });
+            // });
         });
 
     }
@@ -53,7 +41,6 @@ projectsModule.controller('WorkPackageController',
     function WorkPackageController($scope, $rootScope, NgTableParams,
                                    Project, WorkPackage, Users){
 
-    console.log("Instantiating WorkPackageController,{currProject} = "+ JSON.stringify($rootScope.currentProject));
     var wpc = this;
 
     var workPackagesIds = $rootScope.currentProject.workPackages;
@@ -61,13 +48,17 @@ projectsModule.controller('WorkPackageController',
 
     $scope.allProjectAssignees = [];
 
+
+
     WorkPackage.query({wid: workPackagesIds}, function(originalData){
 
-        console.log("Returned data = " + originalData)
-        console.log("JSON original data = " + JSON.stringify(originalData));
+        console.log("Original Data = " + originalData);
         wpc.tableParams = new NgTableParams({}, {
             dataset: angular.copy(originalData)
+
         });
+
+
 
         var projectId = $rootScope.currentProject.pid;
         console.log("Current project id = " + projectId);
@@ -83,7 +74,10 @@ projectsModule.controller('WorkPackageController',
             });
         });
 
+
     });
+
+
 
     wpc.addRow = function() {
         console.log("Adding a row to the workPackage table");
@@ -103,20 +97,11 @@ projectsModule.controller('WorkPackageController',
         wpc.tableParams.reload();
     }
 
-    //TODO: this is not working
-    wpc.saveRow = function() {
-        console.log("Saving data of workPackage table");
-        var tableDataArr = [];
-        var dataArr = this.tableParams.settings().dataset;
-        var projectUpdated = $rootScope.currentProject;
-        delete projectUpdated.workpackage;
-        projectUpdated.workpackage = dataArr;
 
+
+    wpc.cancel = function() {
+        console.log("Cancel changes called");
         this.isEditing = false;
-
-        Project.update({id: projectUpdated.id}, projectUpdated, function (retProject) {
-            $scope.statusMessage = "Workpackage successfully saved!";
-        });
     }
         
    wpc.deleteRow = function(row) {
@@ -128,54 +113,68 @@ projectsModule.controller('WorkPackageController',
 
    }
 
+   wpc.saveRow = function(workPackage) {
+       // console.log("Saving single row = " + JSON.stringify(workPackage) + "  ID : " + workPackage._id);
+        if(workPackage._id){
+            //console.log("Yes, I am PUT");
+            WorkPackage.update({wid: workPackage.wid}, workPackage, function(successResponse){
+                //console.log("Successfully saved a single row : " + JSON.stringify(successResponse));
+
+                $scope.statusMessage = "Workpackage " + workPackage.wid + " updated successfully"
+
+            }, function(errorResponse){
+                $scope.statusMessage = errorResponse.data.errmsg;
+                console.log("Error Response Code: " + errorResponse.data.code + " message: " + errorResponse.data.errmsg);
+            });
+        } else {
+            WorkPackage.save(workPackage, function(successResponse){
+                $scope.statusMessage = "Workpackages created successfully!!";
+                $rootScope.currentProject.workPackages.push(workPackage.wid);
+                Project.update({pid: $scope.currentProject.pid}, $scope.currentProject, function (successResponse) {
+                    $scope.statusMessage = "Workpackage " + workPackage.wid + " added successfully"
+                })
+            }, function(errorResponse){
+                $scope.statusMessage = errorResponse.data.errmsg;
+                console.log("Error Response Code: " + errorResponse.data.code + " message: " + errorResponse.data.errmsg);
+            });
+        }
+
+       this.isEditing = false;
+
+   }
+
+        //TODO: this is not working
+        wpc.saveAll = function() {
+
+            var tableDataArr = [];
+            var dataArr = this.tableParams.settings().dataset;
+            // console.log("Saving data of workPackage table" + JSON.stringify(dataArr));
+            // angular.forEach(dataArr, function (da) {
+            //     console.log(da.$getDirty);
+            //
+            // });
+            var projectUpdated = $rootScope.currentProject;
+            delete projectUpdated.workpackage;
+            projectUpdated.workpackage = dataArr;
+
+            this.isEditing = false;
+
+
+            console.log("New workpackages = " + JSON.stringify(projectUpdated.workpackage));
+            WorkPackage.save(projectUpdated.workpackage, function(successResponse){
+                $scope.statusMessage = "Workpackages updated successfully!!";
+                console.log("Successful response! ");
+            }, function(errorResponse){
+                $scope.statusMessage = errorResponse.data.errmsg;
+                console.log("Error Response Code: " + errorResponse.data.code + " message: " + errorResponse.data.errmsg);
+            });
+        }
+
+   wpc.hasChanges = function() {
+       console.log("Changes = " + wpc.tableParams.$dirty);
+   }
+
 
 });
 
-// projectsModule.controller('WorkPackageController', function($scope, $rootScope, NgTableParams){
-//     var self = this;
-//     //console.log("Self : " + self.value)
-//     var data = $scope.getWorkPackages;
-//
-//     $scope.isEditing = false;
-//     $scope.isAdding = false;
-//     //self.add = add;
-//     //self.cancelChanges = cancelChanges;
-//     //self.del = del;
-//     //self.hasChanges = hasChanges;
-//     //self.saveChanges = saveChanges;
-//
-//     // self.tableParams = new NgTableParams({}, {
-//     //     dataset: data
-//     // });
-//
-//     $scope.addRow = function() {
-//         console.log("Adding a row" + $rootScope.currentProject.workpackage);
-//         var data = $rootScope.currentProject.workpackage;
-//         console.log("Adding a row[data]" + data);
-//         $scope.isEditing = true;
-//         $scope.isAdding = true;
-//         self.tableParams = new NgTableParams({}, {
-//             dataset: data
-//         });
-//         console.log("tableParam: " + self.tableParams);
-//         console.log("settings : " + self.tableParams.settings());
-//         self.tableParams.settings().dataset.unshift({
-//             id: 4,
-//             subject: "",
-//             type: "",
-//             status: "",
-//             assignee: ""
-//         });
-//
-//         $scope.tableParams.sorting({});
-//         $scope.tableParams.page(1);
-//         self.tableParams.reload();
-//     }
-//
-//
-//     $scope.getWorkPackages = function () {
-//         return $rootScope.currentProject.workpackage;
-//     }
-//
-//
-// });
+
