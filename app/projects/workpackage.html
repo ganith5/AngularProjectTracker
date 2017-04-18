@@ -5,8 +5,51 @@
     <div class="alert alert-success" role="alert" ng-if="statusMessage">{{statusMessage}}</div>
     <div class="pull-right div-stack">
 
-        <button type="button" class="btn btn-success" name="createBtn">Create</span></button>
+        <button type="button" class="btn btn-success" name="createBtn" data-toggle="modal" data-target="#wkpModal">Create</button>
         <button type="button" class="btn btn-default">Filter</button>
+    </div>
+    <div id="wkpModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content" ng-Form="wpc.workPackageForm">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">New WorkPackage</h4>
+                    <div class="form-group">
+                        <!--<input type="text" id="wid" name="wid" class="form-control" ng-model="wPackage.wid" required/>-->
+                        <input type="text" id="subject" class="form-control" ng-model="wPackage.subject" required/>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <h3 class="modal-title">Description</h3>
+                    <div class="form-group">
+                        <textarea rows="5" class="form-control" id="wkpDesc" ng-model="wPackage.description" required />
+                    </div>
+                    <h3 class="modal-title">Details</h3>
+
+                    <div class="form-group">
+                        <label for="wkpType">Type:</label>
+                        <select class="form-control" id="wkpType" ng-model="wPackage.type" required>
+                            <option>Task</option>
+                            <option>Milestone</option>
+                            <option>Feature</option>
+                            <option>Bug</option>
+                            <option>Epic</option>
+                        </select>
+                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<label for="wkpDate">Date:</label>-->
+                        <!--<input type="date" id="wkpDate" class="form-control" required/>-->
+                    <!--</div>-->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" ng-click="wpc.saveRow(wPackage)">Save</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+
+        </div>
     </div>
 
 
@@ -21,7 +64,7 @@
             <td title="'ID'" filter="{ id: 'number'}" sortable="'id'" ng-switch="wpc.isEditing">
                 <span ng-switch-default>{{wPackage.wid}}</span>
                 <div ng-switch-when="true">
-                    <input type="text" name="id" ng-model="wPackage.wid" class="form-control" required/>
+                    <input type="text" name="id" ng-model="wPackage.wid" class="form-control" required disabled/>
                 </div>
             </td>
             <td title="'Subject'" filter="{ subject: 'text'}" sortable="'subject'" ng-switch="wpc.isEditing">

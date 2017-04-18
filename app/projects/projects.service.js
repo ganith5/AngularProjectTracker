@@ -19,7 +19,7 @@ projectsModule.service('ProjectService', function($http) {
 
 projectsModule.factory('Project', function($resource) {
 
-    return $resource('http://localhost:3000/v1/projects',
+    return $resource('http://localhost:3000/v1/projects/:id/:action',
         {},
         {
             query: {
@@ -38,7 +38,7 @@ projectsModule.factory('Project', function($resource) {
 
 projectsModule.factory('WorkPackage', function($resource) {
 
-    return $resource('http://localhost:3000/v1/workpackage',
+    return $resource('http://localhost:3000/v1/workpackage/:wid/:action',
         {},
         {
             query: {
@@ -47,6 +47,9 @@ projectsModule.factory('WorkPackage', function($resource) {
             },
             update: {
                 method: 'PUT'
+            },
+            delete: {
+                method: 'DELETE'
             }
         }
 
