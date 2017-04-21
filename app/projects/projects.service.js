@@ -1,25 +1,11 @@
 var projectsModule = angular.module('projects');
 
-projectsModule.service('ProjectService', function($http) {
-
-    this.getAllProjects = function () {
-
-        return $http.get('projects/projects.json');
-
-    }
-
-    this.getProjectById = function(pId) {
-        console.log("Project id = " + pId);
-        return $http.get('projects/projects.json')
-
-    }
 
 
-});
 
-projectsModule.factory('Project', function($resource) {
+projectsModule.factory('Project', function($resource, Environment) {
 
-    return $resource('http://localhost:3000/v1/projects/:id/:action',
+    return $resource(Environment.getBaseUrl() + '/projects/:id/:action',
         {},
         {
             query: {
@@ -36,9 +22,9 @@ projectsModule.factory('Project', function($resource) {
 });
 
 
-projectsModule.factory('WorkPackage', function($resource) {
+projectsModule.factory('WorkPackage', function($resource, Environment) {
 
-    return $resource('http://localhost:3000/v1/workpackage/:wid/:action',
+    return $resource(Environment.getBaseUrl() + '/workpackage/:wid/:action',
         {},
         {
             query: {
@@ -57,9 +43,9 @@ projectsModule.factory('WorkPackage', function($resource) {
     );
 });
 
-projectsModule.factory('Users', function($resource) {
+projectsModule.factory('Users', function($resource, Environment) {
 
-    return $resource('http://localhost:3000/v1/users',
+    return $resource(Environment.getBaseUrl() + '/users',
         {},
         {
             query: {
@@ -74,6 +60,8 @@ projectsModule.factory('Users', function($resource) {
 
     );
 });
+
+
 
 
 

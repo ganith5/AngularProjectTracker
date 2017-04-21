@@ -1,10 +1,10 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
-//TODO add sub-modules
+
 var app = angular.module('openProjectApp', ['ngRoute', 'ngResource', 'projects', 'smart-table','ngTable']);
 
-app.config(function($routeProvider, $locationProvider) {
+app.config(function($routeProvider, $locationProvider, EnvironmentProvider) {
 
     $locationProvider.html5Mode(true);
     $locationProvider.hashPrefix = '!';
@@ -23,8 +23,12 @@ app.config(function($routeProvider, $locationProvider) {
            controller: 'ProjectController'
        })
 
+    EnvironmentProvider.setActive('DEV')
+
 
 });
+
+
 
 
 //Method to call SideBar actions
@@ -65,10 +69,58 @@ app.controller('NavigationController', function (Project, $scope, $rootScope) {
 
     //Load project by id
     $scope.loadProject = function(project) {
-        console.log("project id to be loaded = " + project.pid);
         $rootScope.currentProject = Project.get({id: project.pid});
         $rootScope.sideMenuName = "Overview";
     }
+
+});
+
+
+app.provider('Environment', function EnvironmentProvider() {
+
+    var environments = {
+        DEV: {
+            root: 'http://localhost',
+            port: '3000',
+            version: 'v1'
+        },
+        PROD: {
+            root: 'https://localhost',
+            port: '3000',
+            version: 'v1'
+        }
+    }
+
+    var selectedEnv = 'dev';
+
+    var self = this;
+
+    this.setActive = function (env) {
+        selectedEnv = env;
+        return self.getActive(selectedEnv);
+
+    }
+
+    this.getActive = function () {
+        return environments[selectedEnv];
+
+    }
+
+    this.getEnvironment = function (env) {
+
+        return environments[env];
+
+    }
+
+    this.getBaseUrl = function () {
+        var active = self.getActive();
+        return active.root + ':' + active.port + '/' + active.version;
+
+    }
+
+    this.$get = [function () {
+        return self;
+    }];
 
 });
 

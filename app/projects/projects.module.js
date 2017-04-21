@@ -5,7 +5,7 @@ var projectsModule = angular.module('projects',['ngResource']);
 //TODO: is this the best way to store project data
 projectsModule.controller('ProjectController', function($scope, $http, $rootScope, Project){
 
-    console.log("Loading ProjectController ---");
+    //console.log("Loading ProjectController ---");
 
     //TODO: Check if there is a better way!!
     $scope.getProjectMembers = function() {
@@ -19,7 +19,7 @@ projectsModule.controller('ProjectController', function($scope, $http, $rootScop
 
         projectInput.pid = Math.floor((Math.random() * 1000) + 1);
 
-        console.log("Project to be added : " + JSON.stringify(projectInput));
+        //console.log("Project to be added : " + JSON.stringify(projectInput));
 
         Project.save({id: projectInput.pid, action: 'create'}, projectInput, function (retProject) {
            // console.log("Succeess!!" + retProject.id);
@@ -39,7 +39,7 @@ projectsModule.controller('WorkPackageController',
     var wpc = this;
 
     var workPackagesIds = $rootScope.currentProject.workPackages;
-    console.log("workPackagesIds : " + workPackagesIds);
+    //console.log("workPackagesIds : " + workPackagesIds);
 
     $scope.allProjectAssignees = [];
 
@@ -47,7 +47,7 @@ projectsModule.controller('WorkPackageController',
 
     WorkPackage.query({wid: workPackagesIds}, function(originalData){
 
-        console.log("Original Data = " + originalData);
+        //console.log("Original Data = " + originalData);
         wpc.tableParams = new NgTableParams({}, {
             dataset: angular.copy(originalData)
 
@@ -56,9 +56,9 @@ projectsModule.controller('WorkPackageController',
 
 
         var projectId = $rootScope.currentProject.pid;
-        console.log("Current project id = " + projectId);
+       // console.log("Current project id = " + projectId);
         Users.query({projectId: projectId}, function(projectAssignees){
-            console.log("Project assignees = " + projectAssignees);
+            //console.log("Project assignees = " + projectAssignees);
 
             angular.forEach(projectAssignees, function(pAssignee) {
 
@@ -95,12 +95,12 @@ projectsModule.controller('WorkPackageController',
 
 
     wpc.cancel = function() {
-        console.log("Cancel changes called");
+        //console.log("Cancel changes called");
         this.isEditing = false;
     }
         
    wpc.deleteRow = function(row) {
-       console.log("Delete Row.. " + JSON.stringify(row));
+      // console.log("Delete Row.. " + JSON.stringify(row));
        var wkpId = row.wid;
        var projectWkpIds = $rootScope.currentProject.workPackages;
        var projectId = $rootScope.currentProject.pid;
@@ -108,7 +108,7 @@ projectsModule.controller('WorkPackageController',
            var index = projectWkpIds.indexOf(wkpId);
            projectWkpIds.splice(index, 1);
            $rootScope.currentProject.workPackages = projectWkpIds;
-           console.log("New Project = " + JSON.stringify($rootScope.currentProject))
+          // console.log("New Project = " + JSON.stringify($rootScope.currentProject))
            Project.update({pid: projectId}, $rootScope.currentProject);
            $scope.statusMessage = "Workpackage " + wkpId + " deleted successfully!";
            $route.reload();
@@ -125,7 +125,7 @@ projectsModule.controller('WorkPackageController',
         for(i=0; i < errData.length; i++) {
             errMsg = errMsg + errData[i].name + ' : ' + errData[i].message + '\n';
         }
-        console.log("Error message : " + errMsg);
+        //console.log("Error message : " + errMsg);
         return errMsg;
    }
 
