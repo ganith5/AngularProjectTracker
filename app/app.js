@@ -31,6 +31,7 @@ app.config(function($routeProvider, $locationProvider) {
 app.controller('SidebarController', function($scope, $rootScope){
 
     $scope.toggleSideBar = function () {
+        console.log("Toggling!!");
 
         $("#sidebar-menu").toggle();
         //$("#breadcrumb-content").toggle();

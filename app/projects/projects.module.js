@@ -33,7 +33,7 @@ projectsModule.controller('ProjectController', function($scope, $http, $rootScop
 });
 
 projectsModule.controller('WorkPackageController',
-    function WorkPackageController($route, $scope, $rootScope, NgTableParams,
+    function WorkPackageController($route, $scope, $rootScope, $window, NgTableParams,
                                    Project, WorkPackage, Users){
 
     var wpc = this;
@@ -113,10 +113,20 @@ projectsModule.controller('WorkPackageController',
            $scope.statusMessage = "Workpackage " + wkpId + " deleted successfully!";
            $route.reload();
        }, function(errorResponse) {
-            $scope.statusMessage = errorResponse.data.errmsg;
+            $scope.statusMessage = constructErrMessage(errorResponse);
 
        });
 
+   }
+
+   function constructErrMessage(errorResponse) {
+        var errData = errorResponse.data;
+        var errMsg = '';
+        for(i=0; i < errData.length; i++) {
+            errMsg = errMsg + errData[i].name + ' : ' + errData[i].message + '\n';
+        }
+        console.log("Error message : " + errMsg);
+        return errMsg;
    }
 
    wpc.saveRow = function(workPackage) {
@@ -129,15 +139,12 @@ projectsModule.controller('WorkPackageController',
                 $scope.statusMessage = "Workpackage " + workPackage.wid + " updated successfully"
 
             }, function(errorResponse){
-                $scope.statusMessage = errorResponse.data.errmsg;
-                console.log("Error Response Code: " + errorResponse.data.code + " message: " + errorResponse.data.errmsg);
+               // console.log(JSON.stringify(errorResponse));
+                $scope.statusMessage = constructErrMessage(errorResponse);
+               // console.log("Error Response Code: " + errorResponse.data.name + " : " + errorResponse.data.message);
             });
         } else {
 
-            if(!workPackage.wid){
-                workPackage.wid = Math.floor((Math.random() * 1000) + 1);
-            }
-           // console.log("WID = " + JSON.stringify(workPackage));
             WorkPackage.save({wid: workPackage.wid, action: 'create'}, workPackage, function(successResponse){
                 $scope.statusMessage = "Workpackages created successfully!!";
                 $rootScope.currentProject.workPackages.push(workPackage.wid);
@@ -145,8 +152,8 @@ projectsModule.controller('WorkPackageController',
                     $scope.statusMessage = "Workpackage " + workPackage.wid + " added successfully"
                 })
             }, function(errorResponse){
-                $scope.statusMessage = errorResponse.data.errmsg;
-                console.log("Error Response Code: " + errorResponse.data.code + " message: " + errorResponse.data.errmsg);
+                $scope.statusMessage = constructErrMessage(errorResponse);
+                //console.log("Error Response Code: " + errorResponse.data.code + " message: " + errorResponse.data.errmsg);
             });
         }
 
@@ -154,9 +161,35 @@ projectsModule.controller('WorkPackageController',
 
    }
 
-   wpc.hasChanges = function() {
-       console.log("Changes = " + wpc.tableParams.$dirty);
+   wpc.saveWpkModal = function(workPackage) {
+       if(!workPackage.wid){
+           workPackage.wid = Math.floor((Math.random() * 1000) + 1);
+       }
+       WorkPackage.save({wid: workPackage.wid, action: 'create'}, workPackage, function(successResponse){
+           $scope.statusMessage = "Workpackages created successfully!!";
+           $rootScope.currentProject.workPackages.push(workPackage.wid);
+           Project.update({pid: $scope.currentProject.pid}, $scope.currentProject, function (successResponse) {
+               $scope.statusMessage = "Workpackage " + workPackage.wid + " added successfully";
+               $('#wkpModal').modal('hide');
+
+               $('#wkpModal').on('hidden.bs.modal', function (e) {
+                   $route.reload();
+               });
+
+
+           });
+
+       }, function(errorResponse){
+           //console.log(JSON.stringify(errorResponse))
+           $scope.statusMessage = constructErrMessage(errorResponse);
+          // console.log("Error Response Code: " + errorResponse.data.type + " : " + errorResponse.data.message);
+       });
+
+
+
+
    }
+
 
 
 });

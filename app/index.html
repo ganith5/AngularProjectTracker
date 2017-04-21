@@ -96,40 +96,54 @@
             <div class="col-lg-2" id="sidebar-menu" ng-controller="SidebarController">
                 <ul class="nav navbar-stacked" >
                     <li class="nav-item">
-                        <a class="nav-link active" href="/projects/{{currentProject.name}}" ng-click="setSideMenuName('Overview');"><span class="glyphicon glyphicon-menu-hamburger"> Overview</span></a>
+                        <a class="nav-link active" href="/projects/{{currentProject.name}}"
+                           ng-click="setSideMenuName('Overview');">
+                            <span class="glyphicon glyphicon-menu-hamburger"> Overview</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/projects/{{currentProject.name}}/workpackage" ng-click="setSideMenuName('Work Packages');"><span class="glyphicon glyphicon-plane"> Work Packages</span></a>
+                        <a class="nav-link" href="/projects/{{currentProject.name}}/workpackage"
+                           ng-click="setSideMenuName('Work Packages');">
+                            <span class="glyphicon glyphicon-plane"> Work Packages</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><span class="glyphicon glyphicon-tasks"> Timelines</span></a>
+                        <a class="nav-link disabled" href="/projects/{{currentProject.name}}/timelines">
+                            <span class="glyphicon glyphicon-tasks"> Timelines</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><span class="glyphicon glyphicon-tasks"> Backlogs</span></a>
+                        <a class="nav-link disabled" href="/projects/{{currentProject.name}}/backlogs">
+                            <span class="glyphicon glyphicon-repeat"> Backlogs</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled" href="#"><span class="glyphicon glyphicon-calendar"> Calendar</span></a>
+                        <a class="nav-link disabled" href="/projects/{{currentProject.name}}/calendar">
+                            <span class="glyphicon glyphicon-calendar"> Calendar</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled" href="#"><span class="glyphicon glyphicon-bullhorn"> News</span></a>
+                        <a class="nav-link disabled" href="/projects/{{currentProject.name}}/news">
+                            <span class="glyphicon glyphicon-bullhorn"> News</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled" href="#"><span class="glyphicon glyphicon-tasks"> Wiki</span></a>
+                        <a class="nav-link disabled" href="/projects/{{currentProject.name}}/wiki">
+                            <span class="glyphicon glyphicon-book"> Wiki</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled" href="#"><span class="glyphicon glyphicon-tasks"> Cost Reports</span></a>
+                        <a class="nav-link disabled" href="/projects/{{currentProject.name}}/creports">
+                            <span class="glyphicon glyphicon-equalizer"> Cost Reports</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled" href="#"><span class="glyphicon glyphicon-tasks"> Members</span></a>
+                        <a class="nav-link disabled" href="/projects/{{currentProject.name}}/members">
+                            <span class="glyphicon glyphicon-user"> Members</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled" href="#"><span class="glyphicon glyphicon-tasks"> Meetings</span></a>
+                        <a class="nav-link disabled" href="/projects/{{currentProject.name}}/meetings">
+                            <span class="glyphicon glyphicon-blackboard"> Meetings</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled" href="#"><span class="glyphicon glyphicon-tasks"> Budget</span></a>
+                        <a class="nav-link disabled" href="/projects/{{currentProject.name}}/budget">
+                            <span class="glyphicon glyphicon-piggy-bank"> Budget</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled" href="#"><span class="glyphicon glyphicon-tasks"> Project Settings</span></a>
+                        <a class="nav-link disabled" href="/projects/{{currentProject.name}}/settings">
+                            <span class="glyphicon glyphicon-cog"> Project Settings</span></a>
                     </li>
                 </ul>
             </div>
